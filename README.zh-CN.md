@@ -1,0 +1,164 @@
+<p align="center">
+  <img src="http://xygoupload.xingyunwangluo.com/gitee/%E5%8D%95%E7%8B%AClogo.png" width="200" />
+</p>
+<br />
+<h1 align="center">XYGo Admin</h1>
+<p align="center">基于 Vue3 + GoFrame 构建的通用开源中后台管理框架，内置权限管理、代码生成、系统监控等核心模块，开箱即用，快速启动你的业务开发。</p>
+<div align="center">简体中文 | <a href="./README.md">English</a></div>
+
+<br />
+<p align="center">
+  <a href="https://www.xygoadmin.com">官网</a> |
+  <a href="https://www.xygoadmin.com">演示</a> |
+  <a href="https://qm.qq.com/q/dwSdPBjkhU">加群</a> |
+  <a href="https://gitee.com/a751300685a/xygo-admin">Gitee仓库</a> |
+  <a href="https://github.com/z312193608/xygo-admin">GitHub仓库</a>
+</p>
+
+<div align="center">
+
+[![license](https://img.shields.io/badge/license-MIT-green.svg)](./LICENSE)
+[![Vue](https://img.shields.io/badge/Vue-3.x-42b883.svg)](https://vuejs.org/)
+[![GoFrame](https://img.shields.io/badge/GoFrame-v2-00ADD8.svg)](https://goframe.org/)
+[![Go](https://img.shields.io/badge/Go-1.22+-00ADD8.svg)](https://golang.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.x-3178C6.svg)](https://www.typescriptlang.org/)
+[![Vite](https://img.shields.io/badge/Vite-6.x-646CFF.svg)](https://vitejs.dev/)
+[![Element Plus](https://img.shields.io/badge/Element_Plus-2.x-409EFF.svg)](https://element-plus.org/)
+[![Pinia](https://img.shields.io/badge/Pinia-2.x-F7D336.svg)](https://pinia.vuejs.org/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.x-06B6D4.svg)](https://tailwindcss.com/)
+[![Art Design Pro](https://img.shields.io/badge/Art_Design_Pro-UI-FF6B6B.svg)](https://github.com/Daymychen/art-design-pro)
+[![Gitee star](https://gitee.com/a751300685a/xygo-admin/badge/star.svg?theme=gvp)](https://gitee.com/a751300685a/xygo-admin/stargazers)
+[![Gitee fork](https://gitee.com/a751300685a/xygo-admin/badge/fork.svg?theme=gvp)](https://gitee.com/a751300685a/xygo-admin/members)
+
+</div>
+<br />
+
+### 介绍
+
+XYGo Admin 是一款全栈开源中后台管理框架，前端基于 [Art Design Pro](https://github.com/Daymychen/art-design-pro)（Vue3 + TypeScript + Element Plus），后端基于 [GoFrame v2](https://goframe.org/)。无需授权即可免费商用，希望能帮助开发者快速搭建企业级管理系统。
+
+### 主要特性
+
+**RBAC 权限体系**：角色、菜单、按钮、数据权限、字段权限，精细到列级控制，可视化管理权限分配
+
+**可视化代码生成**：可视化设计表结构，一键生成前后端 CRUD 代码（Go API + Controller + Logic + Vue 页面），支持主子表关联，节省 80% 开发时间
+
+**双数据库支持**：同时兼容 MySQL 和 PostgreSQL，一套代码双库运行，切换数据库只需改一行配置
+
+**前后端分离**：前端 Vue3 SPA + 后端 GoFrame RESTful API，可独立部署，也可打包为单体二进制一键部署
+
+**会员门户系统**：内置前台门户 + 会员中心，支持注册登录、积分签到、个人中心，门户菜单后台可视化管理
+
+**文档中心**：内置 Markdown 文档管理，支持分类树、全文搜索、在线预览
+
+**系统监控**：服务器状态监控、慢查询告警、慢接口告警、操作日志、登录日志全覆盖
+
+**消息队列**：基于 Redis 的异步任务队列，支持定时任务管理和消息推送
+
+**现代 UI**：基于 Art Design Pro，六种布局模式、明暗主题、丝滑动画交互，按钮点击、主题切换、页面过渡体验媲美商业产品
+
+**单体部署**：支持将前端打包进 Go 二进制，一个文件 + 一个配置即可部署，无需 Nginx
+
+### 技术栈
+
+| 层级 | 技术 |
+|------|------|
+| 前端框架 | Vue 3、TypeScript、Vite |
+| UI 组件库 | Element Plus、Tailwind CSS |
+| 状态管理 | Pinia |
+| 后端框架 | GoFrame v2（Go 1.22+） |
+| 数据库 | MySQL 8.0+ / PostgreSQL 14+ |
+| 缓存/队列 | Redis |
+| 认证 | JWT（支持单点登录） |
+
+### 项目预览
+
+> 演示站：[www.xygoadmin.com](https://www.xygoadmin.com)
+
+<table>
+  <tr>
+    <td><img src="http://xygoupload.xingyunwangluo.com/gitee/1.png" /></td>
+    <td><img src="http://xygoupload.xingyunwangluo.com/gitee/2.png" /></td>
+    <td><img src="http://xygoupload.xingyunwangluo.com/gitee/3.png" /></td>
+  </tr>
+  <tr>
+    <td><img src="http://xygoupload.xingyunwangluo.com/gitee/4.png" /></td>
+    <td><img src="http://xygoupload.xingyunwangluo.com/gitee/5.png" /></td>
+    <td><img src="http://xygoupload.xingyunwangluo.com/gitee/6.png" /></td>
+  </tr>
+  <tr>
+    <td><img src="http://xygoupload.xingyunwangluo.com/gitee/7.png" /></td>
+    <td><img src="http://xygoupload.xingyunwangluo.com/gitee/8.png" /></td>
+    <td><img src="http://xygoupload.xingyunwangluo.com/gitee/9.png" /></td>
+  </tr>
+</table>
+
+### 快速访问
+
+[演示站](https://www.xygoadmin.com) | [Gitee 仓库](https://gitee.com/a751300685a/xygo-admin) | [GitHub 仓库](https://github.com/z312193608/xygo-admin) | [📖 完整文档](https://www.xygoadmin.com/docs)
+
+### 安装使用
+
+详细安装步骤请查阅 **[📖 官方文档](https://www.xygoadmin.com/docs)**。
+
+**默认账号**
+
+| 角色 | 账号 | 密码 |
+|------|------|------|
+| 超级管理员 | Super | 123456 |
+
+### 项目结构
+
+```
+xygoadmin/
+├── server/                    # 后端 GoFrame 项目
+│   ├── api/                   # API 接口定义
+│   ├── internal/
+│   │   ├── controller/        # 控制器（请求处理）
+│   │   ├── logic/             # 业务逻辑（核心代码在这里）
+│   │   ├── model/             # 数据模型（entity/do/input）
+│   │   ├── dao/               # 数据访问层（gf gen dao 自动生成）
+│   │   └── service/           # 服务接口（gf gen service 自动生成）
+│   ├── manifest/config/       # 运行时配置文件
+│   ├── hack/config.yaml       # CLI 工具配置（build/gen）
+│   └── resource/              # 静态资源、代码生成模板、SQL
+├── web/                       # 前端 Vue3 项目
+│   ├── src/
+│   │   ├── api/               # API 请求封装
+│   │   ├── views/             # 页面组件（backend/frontend）
+│   │   ├── router/            # 路由（静态 + 动态加载）
+│   │   ├── store/             # Pinia 状态管理
+│   │   └── components/        # 通用组件
+│   └── ...
+├── mysql_install.sql           # MySQL 初始化脚本
+└── pgsql_install.sql           # PostgreSQL 初始化脚本
+```
+
+### 联系我们
+
+- 演示站：[www.xygoadmin.com](https://www.xygoadmin.com)
+- GitHub：[github.com/z312193608/xygo-admin](https://github.com/z312193608/xygo-admin)
+- Gitee：[gitee.com/a751300685a/xygo-admin](https://gitee.com/a751300685a/xygo-admin)
+- QQ：751300685
+- QQ群：[963636900](https://qm.qq.com/q/dwSdPBjkhU)
+
+### 浏览器兼容性
+
+支持 Chrome、Safari、Firefox、Edge 等现代主流浏览器。
+
+### 特别鸣谢
+
+感谢以下开源项目提供的基础支持：
+
+- [GoFrame](https://goframe.org/) - Go 语言 Web 框架
+- [Art Design Pro](https://github.com/Daymychen/art-design-pro) - Vue3 后台模板
+- [Vue](https://vuejs.org/) / [Element Plus](https://element-plus.org/) / [Vite](https://vitejs.dev/) / [Pinia](https://pinia.vuejs.org/)
+- [Tailwind CSS](https://tailwindcss.com/) / [TypeScript](https://www.typescriptlang.org/)
+
+### 开源协议
+
+[MIT](./LICENSE) - 无需授权，免费商用。
+
+### 支持项目
+
+如果觉得项目不错，请到 [GitHub](https://github.com/z312193608/xygo-admin) 或 [Gitee](https://gitee.com/a751300685a/xygo-admin) 点个 Star，这是对我们最大的鼓励。
