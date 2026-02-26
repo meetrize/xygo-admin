@@ -205,7 +205,6 @@ import { useSiteStore } from '@/store/modules/site'
 import { useSettingStore } from '@/store/modules/setting'
 import { useI18n } from 'vue-i18n'
 import { ElMessageBox } from 'element-plus'
-import { loadFrontendRoutes, resetFrontendRouteState } from '@/router/frontend/loader'
 
 defineOptions({ name: 'FrontendLayout' })
 
@@ -274,17 +273,23 @@ onMounted(async () => {
     }
     // 设置页面标题
     document.title = siteStore.getSiteName()
-    // 加载前台菜单并注册动态路由
-    await loadFrontendRoutes(router)
+    // 加载前台菜单
+    if (!memberMenuStore.isLoaded) {
+      await memberMenuStore.fetchMenus()
+    }
   } finally {
     pageLoading.value = false
   }
 })
 
-// 监听登录状态变化：登录/登出后重新加载菜单和路由
-watch(() => memberStore.isLogin, async () => {
-  resetFrontendRouteState()
-  await loadFrontendRoutes(router)
+// 监听登录状态变化
+watch(() => memberStore.isLogin, async (newVal) => {
+  if (newVal) {
+    await memberMenuStore.fetchMenus()
+  } else {
+    // 登出后重新拉取公开菜单（no_login_valid=1 的菜单未登录也应显示）
+    await memberMenuStore.fetchMenus()
+  }
 })
 
 // 滚动状态

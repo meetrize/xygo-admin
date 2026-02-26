@@ -13,6 +13,7 @@ export interface UpdateProfileParams {
   gender?: number
   birthday?: string
   email?: string
+  mobile?: string
 }
 
 /** 修改密码参数 */

@@ -276,113 +276,7 @@
           </section>
         </div>
 
-        <!-- 5. 我的帖子 -->
-        <div v-if="activeMenu === 'my-posts'" class="animate-in">
-          <section class="bg-white/70 backdrop-blur-xl rounded-[48px] shadow-clay-card border border-[#d1d9e6]/40 p-8 md:p-10">
-            <h2 class="font-heading font-black text-2xl text-clay-foreground mb-8">我的帖子</h2>
-            <div v-if="myPostList.length === 0 && !myPostLoading" class="py-20 text-center">
-              <ArtSvgIcon icon="ri:file-text-line" class="text-[48px] text-clay-muted opacity-30 mx-auto mb-4" />
-              <p class="text-clay-muted font-bold">还没有发布过帖子</p>
-              <RouterLink to="/community-publish" class="inline-block mt-4 px-6 py-2 rounded-xl bg-clay-accent text-white text-sm font-bold">去发帖</RouterLink>
-            </div>
-            <div v-else class="space-y-3">
-              <div v-for="post in myPostList" :key="post.id"
-                class="flex items-center gap-4 p-5 rounded-[24px] bg-[#f0f3f8] shadow-clay-pressed hover:bg-white hover:shadow-clay-card transition-all cursor-pointer"
-                @click="$router.push(`/community/${post.id}`)">
-                <div class="flex-1 min-w-0">
-                  <div class="flex items-center gap-2 mb-1">
-                    <span v-if="post.rewardScore > 0" class="px-2 py-0.5 rounded-lg bg-amber-100 text-amber-600 text-[10px] font-black">悬赏 {{ post.rewardScore }} 积分</span>
-                    <span v-if="post.isAccepted" class="px-2 py-0.5 rounded-lg bg-green-100 text-green-600 text-[10px] font-black">已采纳</span>
-                    <span class="text-[10px] font-bold text-clay-muted">{{ post.categoryName }}</span>
-                  </div>
-                  <p class="font-bold text-clay-foreground text-sm truncate">{{ post.title }}</p>
-                </div>
-                <div class="shrink-0 text-right">
-                  <div class="flex items-center gap-3 text-xs text-clay-muted">
-                    <span><ArtSvgIcon icon="ri:chat-3-line" class="inline mr-0.5" />{{ post.replyCount }}</span>
-                    <span><ArtSvgIcon icon="ri:eye-line" class="inline mr-0.5" />{{ post.views }}</span>
-                  </div>
-                  <p class="text-[10px] text-clay-muted mt-1">{{ formatTimestamp(post.createdAt) }}</p>
-                </div>
-              </div>
-            </div>
-            <div v-if="myPostTotal > myPostPageSize" class="flex justify-center mt-6 gap-2">
-              <button v-for="p in Math.ceil(myPostTotal / myPostPageSize)" :key="p"
-                class="w-9 h-9 rounded-xl text-sm font-bold transition-all"
-                :class="p === myPostPage ? 'bg-clay-accent text-white shadow-clay-btn' : 'bg-white text-clay-muted shadow-clay-btn'"
-                @click="loadMyPosts(p)">{{ p }}</button>
-            </div>
-          </section>
-        </div>
-
-        <!-- 6. 我的回复 -->
-        <div v-if="activeMenu === 'my-replies'" class="animate-in">
-          <section class="bg-white/70 backdrop-blur-xl rounded-[48px] shadow-clay-card border border-[#d1d9e6]/40 p-8 md:p-10">
-            <h2 class="font-heading font-black text-2xl text-clay-foreground mb-8">我的回复</h2>
-            <div v-if="myReplyList.length === 0 && !myReplyLoading" class="py-20 text-center">
-              <ArtSvgIcon icon="ri:chat-3-line" class="text-[48px] text-clay-muted opacity-30 mx-auto mb-4" />
-              <p class="text-clay-muted font-bold">还没有发表过回复</p>
-            </div>
-            <div v-else class="space-y-3">
-              <div v-for="reply in myReplyList" :key="reply.id"
-                class="p-5 rounded-[24px] bg-[#f0f3f8] shadow-clay-pressed hover:bg-white hover:shadow-clay-card transition-all cursor-pointer"
-                @click="$router.push(`/community/${reply.postId}`)">
-                <div class="flex items-center gap-2 mb-2">
-                  <span v-if="reply.isAccepted" class="px-2 py-0.5 rounded-lg bg-green-100 text-green-600 text-[10px] font-black">✓ 最佳回答</span>
-                  <span class="text-xs font-bold text-clay-accent truncate flex-1">{{ reply.postTitle }}</span>
-                  <span class="text-[10px] text-clay-muted shrink-0">{{ formatTimestamp(reply.createdAt) }}</span>
-                </div>
-                <p class="text-sm text-clay-muted line-clamp-2">{{ reply.content }}</p>
-                <div class="flex items-center gap-2 mt-2">
-                  <ArtSvgIcon icon="ri:thumb-up-line" class="text-xs text-clay-muted" />
-                  <span class="text-xs text-clay-muted">{{ reply.likeCount }}</span>
-                </div>
-              </div>
-            </div>
-            <div v-if="myReplyTotal > myReplyPageSize" class="flex justify-center mt-6 gap-2">
-              <button v-for="p in Math.ceil(myReplyTotal / myReplyPageSize)" :key="p"
-                class="w-9 h-9 rounded-xl text-sm font-bold transition-all"
-                :class="p === myReplyPage ? 'bg-clay-accent text-white shadow-clay-btn' : 'bg-white text-clay-muted shadow-clay-btn'"
-                @click="loadMyReplies(p)">{{ p }}</button>
-            </div>
-          </section>
-        </div>
-
-        <!-- 7. 我的收藏 -->
-        <div v-if="activeMenu === 'my-collects'" class="animate-in">
-          <section class="bg-white/70 backdrop-blur-xl rounded-[48px] shadow-clay-card border border-[#d1d9e6]/40 p-8 md:p-10">
-            <h2 class="font-heading font-black text-2xl text-clay-foreground mb-8">我的收藏</h2>
-            <div v-if="myCollectList.length === 0 && !myCollectLoading" class="py-20 text-center">
-              <ArtSvgIcon icon="ri:bookmark-line" class="text-[48px] text-clay-muted opacity-30 mx-auto mb-4" />
-              <p class="text-clay-muted font-bold">还没有收藏过帖子</p>
-            </div>
-            <div v-else class="space-y-3">
-              <div v-for="item in myCollectList" :key="item.postId"
-                class="flex items-center gap-4 p-5 rounded-[24px] bg-[#f0f3f8] shadow-clay-pressed hover:bg-white hover:shadow-clay-card transition-all cursor-pointer"
-                @click="$router.push(`/community/${item.postId}`)">
-                <div class="flex-1 min-w-0">
-                  <p class="font-bold text-clay-foreground text-sm truncate mb-1">{{ item.title }}</p>
-                  <span class="text-[10px] font-bold text-clay-muted">{{ item.categoryName }}</span>
-                </div>
-                <div class="shrink-0 text-right">
-                  <div class="flex items-center gap-3 text-xs text-clay-muted">
-                    <span><ArtSvgIcon icon="ri:chat-3-line" class="inline mr-0.5" />{{ item.replyCount }}</span>
-                    <span><ArtSvgIcon icon="ri:eye-line" class="inline mr-0.5" />{{ item.views }}</span>
-                  </div>
-                  <p class="text-[10px] text-clay-muted mt-1">收藏于 {{ formatTimestamp(item.createdAt) }}</p>
-                </div>
-              </div>
-            </div>
-            <div v-if="myCollectTotal > myCollectPageSize" class="flex justify-center mt-6 gap-2">
-              <button v-for="p in Math.ceil(myCollectTotal / myCollectPageSize)" :key="p"
-                class="w-9 h-9 rounded-xl text-sm font-bold transition-all"
-                :class="p === myCollectPage ? 'bg-clay-accent text-white shadow-clay-btn' : 'bg-white text-clay-muted shadow-clay-btn'"
-                @click="loadMyCollects(p)">{{ p }}</button>
-            </div>
-          </section>
-        </div>
-
-        <!-- 8. 积分记录（对齐 homesite 拟态表格） -->
+        <!-- 5. 积分记录（对齐 homesite 拟态表格） -->
         <div v-if="activeMenu === 'points'" class="animate-in">
           <section class="bg-white/70 backdrop-blur-xl rounded-[48px] shadow-clay-card border border-[#d1d9e6]/40 p-8 md:p-10">
             <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
@@ -540,7 +434,6 @@ import {
   getScoreLogList,
   getMoneyLogList,
   getNoticeList, markNoticeRead, markAllNoticeRead,
-  fetchMyPostList, fetchMyReplyList, fetchMyCollectList
 } from '@/api/frontend'
 import type { CheckinDayItem, ScoreLogItem, MoneyLogItem, NoticeItem } from '@/api/frontend'
 import { formatTimestamp } from '@/utils/time'
@@ -566,10 +459,8 @@ onMounted(async () => {
     memberStore.logOut()
     return
   }
-  // 拉取菜单
-  if (!memberMenuStore.getCenterMenus.length) {
-    try { await memberMenuStore.fetchMenus() } catch { /* ignore */ }
-  }
+  // 拉取菜单（menuStore 无持久化，刷新后必须重新拉取）
+  try { await memberMenuStore.fetchMenus() } catch { /* ignore */ }
 })
 
 // 菜单树：menu_dir 为分组标题，menu 为可点击项（对齐 BuildAdmin 模式）
@@ -614,10 +505,12 @@ const menuTree = computed<MenuGroup[]>(() => {
   })).filter((g) => g.children.length > 0)
 })
 
-// 菜单加载后自动选中第一个可点击项
+// 菜单加载后自动选中第一个可点击项；若当前选中项已不在菜单中则重置
 watch(menuTree, (tree) => {
-  if (!activeMenu.value && tree.length > 0 && tree[0].children.length > 0) {
-    activeMenu.value = tree[0].children[0].id
+  if (tree.length === 0) return
+  const allIds = tree.flatMap((g) => g.children.map((c) => c.id))
+  if (!activeMenu.value || !allIds.includes(activeMenu.value)) {
+    activeMenu.value = tree[0].children[0]?.id || ''
   }
 }, { immediate: true })
 
@@ -772,72 +665,12 @@ const noticeTypeLabel = (type: string) => {
   return map[type] || type
 }
 
-// ===== 我的帖子 =====
-const myPostList = ref<any[]>([])
-const myPostLoading = ref(false)
-const myPostPage = ref(1)
-const myPostPageSize = 15
-const myPostTotal = ref(0)
-
-async function loadMyPosts(page = 1) {
-  myPostLoading.value = true
-  try {
-    const res = await fetchMyPostList({ page, pageSize: myPostPageSize })
-    myPostList.value = res?.list ?? []
-    myPostPage.value = res?.page ?? page
-    myPostTotal.value = res?.total ?? 0
-  } catch { /* ignore */ } finally {
-    myPostLoading.value = false
-  }
-}
-
-// ===== 我的回复 =====
-const myReplyList = ref<any[]>([])
-const myReplyLoading = ref(false)
-const myReplyPage = ref(1)
-const myReplyPageSize = 15
-const myReplyTotal = ref(0)
-
-async function loadMyReplies(page = 1) {
-  myReplyLoading.value = true
-  try {
-    const res = await fetchMyReplyList({ page, pageSize: myReplyPageSize })
-    myReplyList.value = res?.list ?? []
-    myReplyPage.value = res?.page ?? page
-    myReplyTotal.value = res?.total ?? 0
-  } catch { /* ignore */ } finally {
-    myReplyLoading.value = false
-  }
-}
-
-// ===== 我的收藏 =====
-const myCollectList = ref<any[]>([])
-const myCollectLoading = ref(false)
-const myCollectPage = ref(1)
-const myCollectPageSize = 15
-const myCollectTotal = ref(0)
-
-async function loadMyCollects(page = 1) {
-  myCollectLoading.value = true
-  try {
-    const res = await fetchMyCollectList({ page, pageSize: myCollectPageSize })
-    myCollectList.value = res?.list ?? []
-    myCollectPage.value = res?.page ?? page
-    myCollectTotal.value = res?.total ?? 0
-  } catch { /* ignore */ } finally {
-    myCollectLoading.value = false
-  }
-}
-
 // ===== 菜单切换时按需加载数据 =====
 watch(activeMenu, (menu) => {
   if (menu === 'checkin') loadCheckinInfo()
   if (menu === 'points') loadScoreLog(1)
   if (menu === 'balance') loadMoneyLog(1)
   if (menu === 'notification') loadNoticeList(1)
-  if (menu === 'my-posts') loadMyPosts(1)
-  if (menu === 'my-replies') loadMyReplies(1)
-  if (menu === 'my-collects') loadMyCollects(1)
 }, { immediate: true })
 
 // 问候语
@@ -910,8 +743,11 @@ const handleSaveProfile = async () => {
       avatar: profileForm.avatar,
       gender: profileForm.gender,
       email: profileForm.email,
+      mobile: profileForm.mobile,
     })
     ElMessage.success('保存成功')
+    const info = await getMemberInfo()
+    if (info) memberStore.setMemberInfo(info)
   } catch { /* 拦截器已处理 */ } finally {
     saving.value = false
   }

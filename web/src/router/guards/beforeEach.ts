@@ -212,7 +212,7 @@ async function handleRouteGuard(
     return
   }
 
-  // 7. 仍然未匹配，跳转到 404
+  // 7. 未匹配到路由，跳转到 404
   next({ name: 'Exception404' })
 }
 

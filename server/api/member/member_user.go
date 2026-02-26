@@ -39,6 +39,7 @@ type UpdateProfileReq struct {
 	Gender   int         `json:"gender"`
 	Birthday *gtime.Time `json:"birthday"`
 	Email    string      `json:"email" v:"email#邮箱格式不正确"`
+	Mobile   string      `json:"mobile"`
 }
 
 // UpdateProfileRes 更新会员资料响应

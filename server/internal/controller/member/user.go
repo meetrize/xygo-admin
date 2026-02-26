@@ -301,6 +301,7 @@ func (c *ControllerV1) UpdateProfile(ctx context.Context, req *member.UpdateProf
 	input := &memberin.UpdateProfileInput{
 		Nickname: req.Nickname,
 		Avatar:   req.Avatar,
+		Mobile:   req.Mobile,
 		Gender:   req.Gender,
 		Birthday: req.Birthday,
 		Email:    req.Email,
