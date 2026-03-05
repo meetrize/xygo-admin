@@ -99,8 +99,8 @@
   const systemName = computed(() => siteStore.getSiteName())
 
   const formData = reactive({
-    username: '',
-    password: '',
+    username: 'admin',
+    password: '123456',
     rememberPassword: true
   })
 

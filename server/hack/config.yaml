@@ -3,7 +3,7 @@
 # https://goframe.org/docs/cli
 gfcli:
   build:
-    name:    "xygo"                                                            # 可执行文件名称
+    name:    "demo"                                                            # 可执行文件名称
     arch:    "amd64"                                                           # 架构：386 / amd64 / arm / all
     system:  "linux"                                                           # 平台：linux / darwin / windows / all
     mod:     "none"
@@ -12,7 +12,7 @@ gfcli:
     packSrc: "resource/public,resource/generate,resource/template,resource/captcha"  # 配置外置（部署时可修改 config.yaml）
     packDst: "internal/packed/packed.go"                                       # 打包生成的 Go 文件路径
     version: ""
-    output:  "./temp/xygo"                                                     # 输出路径
+    output:  "./temp/demo"                                                     # 输出路径
     extra:   ""
 
   gen:

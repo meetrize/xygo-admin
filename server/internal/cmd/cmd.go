@@ -83,22 +83,24 @@ var (
 					site.NewV1(),
 				)
 
-				// 后台管理接口（带鉴权）
-				group.Group("/", func(ag *ghttp.RouterGroup) {
-					ag.Middleware(middleware.AdminAuth)
-					ag.Middleware(middleware.OperationLog)
+			// 后台管理接口（带鉴权）
+			group.Group("/", func(ag *ghttp.RouterGroup) {
+				ag.Middleware(middleware.AdminAuth)
+				ag.Middleware(middleware.DemoGuard)
+				ag.Middleware(middleware.OperationLog)
 					ag.Bind(
 						admin.NewV1(),
 					)
 				})
 
-				// 会员接口（前台用户，使用 Xy-User-Token）
-				group.Group("/member", func(mg *ghttp.RouterGroup) {
-					mg.Middleware(middleware.MemberAuth)
-					mg.Bind(
-						member.NewV1(),
-					)
-				})
+			// 会员接口（前台用户，使用 Xy-User-Token）
+			group.Group("/member", func(mg *ghttp.RouterGroup) {
+				mg.Middleware(middleware.MemberAuth)
+				mg.Middleware(middleware.DemoGuard)
+				mg.Bind(
+					member.NewV1(),
+				)
+			})
 			})
 
 			// =============== WebSocket 端点 ===============

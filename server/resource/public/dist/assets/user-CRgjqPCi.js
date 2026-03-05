@@ -1,1 +1,0 @@
-import{y as r}from"./index-CfMQOaVr.js";function u(){return r.get({url:"/user/info"})}function t(u){return r.put({url:"/user/profile",data:u})}function n(u){return r.put({url:"/user/password",data:u})}function e(){return r.get({url:"/user/menus"})}export{e as a,n as c,u as g,t as u};

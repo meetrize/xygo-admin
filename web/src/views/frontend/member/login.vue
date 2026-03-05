@@ -122,8 +122,8 @@ const formRef = ref<FormInstance>()
 const captchaRef = ref<InstanceType<typeof ArtClickCaptcha>>()
 
 const formData = reactive({
-  username: '',
-  password: '',
+  username: 'user',
+  password: '123456',
   rememberMe: false
 })
 

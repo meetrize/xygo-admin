@@ -1,1 +1,0 @@
-import{F as r}from"./index-CfMQOaVr.js";function e(e){return r.get({url:"/member-login-log/list",params:e})}function n(e){return r.get({url:"/member-login-log/view",params:{id:e}})}function o(e){return r.post({url:"/member-login-log/delete",params:{id:e}})}export{o as a,e as b,n as f};

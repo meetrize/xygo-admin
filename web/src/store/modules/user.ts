@@ -40,7 +40,7 @@ import { useWorktabStore } from './worktab'
 import { AppRouteRecord } from '@/types/router'
 import { setPageTitle } from '@/utils/router'
 import { resetRouterState } from '@/router/guards/beforeEach'
-import { ADMIN_LOGIN_PATH } from '@/router/routesAlias'
+import { ADMIN_BASE_PATH, ADMIN_LOGIN_PATH } from '@/router/routesAlias'
 import { useMenuStore } from './menu'
 import { StorageConfig } from '@/utils/storage/storage-config'
 import { fetchLogout } from '@/api/backend/auth'
@@ -179,13 +179,14 @@ export const useUserStore = defineStore(
       useMenuStore().setHomePath('')
       // 重置路由状态
       resetRouterState(500)
-      // 跳转到登录页，携带当前路由作为 redirect 参数
       if (redirect) {
         const currentRoute = router.currentRoute.value
-        if (currentRoute.path !== ADMIN_LOGIN_PATH) {
+        const isAdmin = currentRoute.path.startsWith(ADMIN_BASE_PATH)
+        const loginPath = isAdmin ? ADMIN_LOGIN_PATH : '/user/login'
+        if (currentRoute.path !== loginPath) {
           const redirectPath = currentRoute.fullPath
           router.push({
-            name: 'Login',
+            path: loginPath,
             query: redirectPath ? { redirect: redirectPath } : undefined
           })
         }

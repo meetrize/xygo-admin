@@ -204,7 +204,7 @@ import { useMemberMenuStore } from '@/store/modules/memberMenu'
 import { useSiteStore } from '@/store/modules/site'
 import { useSettingStore } from '@/store/modules/setting'
 import { useI18n } from 'vue-i18n'
-import { ElMessageBox } from 'element-plus'
+import { ElMessage, ElMessageBox } from 'element-plus'
 
 defineOptions({ name: 'FrontendLayout' })
 
@@ -325,7 +325,8 @@ const handleUserCommand = async (command: string) => {
           type: 'warning'
         })
         memberStore.logOut({ redirect: false })
-        router.push('/')
+        ElMessage.success('退出成功')
+        router.push('/user/login')
       } catch {
         // 取消
       }
