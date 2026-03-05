@@ -79,6 +79,7 @@
   import { useI18n } from 'vue-i18n'
   import { HttpError } from '@/utils/http/error'
   import { fetchLogin } from '@/api/backend/auth'
+  import { ADMIN_BASE_PATH } from '@/router/routesAlias'
   import { ElNotification, type FormInstance, type FormRules } from 'element-plus'
   import ArtClickCaptcha from '@/components/core/forms/art-click-captcha/index.vue'
 
@@ -135,7 +136,7 @@
       userStore.setLoginStatus(true)
 
       const redirect = route.query.redirect as string
-      let targetPath = '/admin/dashboard/console'
+      let targetPath = `${ADMIN_BASE_PATH}/dashboard/console`
       if (redirect && !redirect.startsWith('/user') && redirect !== '/') {
         targetPath = redirect
       }

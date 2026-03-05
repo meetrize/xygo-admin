@@ -44,7 +44,7 @@ import { useMemberStore } from '@/store/modules/member'
 import { useMenuStore } from '@/store/modules/menu'
 import { setWorktab } from '@/utils/navigation'
 import { setPageTitle } from '@/utils/router'
-import { RoutesAlias, ADMIN_BASE_PATH } from '../routesAlias'
+import { ADMIN_BASE_PATH, ADMIN_LOGIN_PATH } from '../routesAlias'
 // staticRoutes 不再需要导入（isStaticRoute 已弃用，前后台靠 /admin 前缀隔离）
 import { loadingService } from '@/utils/ui'
 import { useCommon } from '@/hooks/core/useCommon'
@@ -283,7 +283,7 @@ function handleLoginStatus(
   // ===== 以下逻辑仅处理后台 /admin 路由 =====
 
   // 3. 后台登录/注册/忘记密码页本身
-  if (to.path === RoutesAlias.Login || to.path === `${ADMIN_BASE_PATH}/register` || to.path === `${ADMIN_BASE_PATH}/forget-password`) {
+  if (to.path === ADMIN_LOGIN_PATH || to.path === `${ADMIN_BASE_PATH}/register` || to.path === `${ADMIN_BASE_PATH}/forget-password`) {
     if (userStore.isLogin) {
       // 已登录，重定向到后台首页
       const { homePath } = useCommon()

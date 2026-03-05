@@ -17,7 +17,7 @@
           </p>
           <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-6">
             <a
-              href="/#/admin"
+              :href="`/#${ADMIN_BASE_PATH}`"
               target="_blank"
               class="w-full sm:w-auto px-10 py-4 rounded-full bg-gradient-to-br from-blue-400 to-blue-600 text-white text-lg font-bold shadow-clay-btn hover:shadow-clay-btn-hover hover:-translate-y-1 active:scale-95 active:shadow-clay-pressed transition-all duration-300 flex items-center justify-center gap-2"
             >
@@ -156,6 +156,8 @@
 </template>
 
 <script setup lang="ts">
+import { ADMIN_BASE_PATH } from '@/router/routesAlias'
+
 defineOptions({ name: 'FrontendHome' })
 
 const features = [

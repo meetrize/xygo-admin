@@ -33,7 +33,7 @@
           </div>
         </div>
         <ul class="py-4 mt-3 border-t border-g-300/80">
-          <li class="btn-item" @click="goPage('/admin/system/user-center')">
+          <li class="btn-item" @click="goPage(`${ADMIN_BASE_PATH}/system/user-center`)">
             <ArtSvgIcon icon="ri:user-3-line" />
             <span>{{ $t('topBar.user.userCenter') }}</span>
           </li>
@@ -66,6 +66,7 @@
   import { useUserStore } from '@/store/modules/user'
   import { WEB_LINKS } from '@/utils/constants'
   import { mittBus } from '@/utils/sys'
+  import { ADMIN_BASE_PATH } from '@/router/routesAlias'
 
   defineOptions({ name: 'ArtUserMenu' })
 

@@ -66,6 +66,7 @@
 
 <script setup lang="ts">
   import { useNotificationStore } from '@/stores/backend/notification'
+  import { ADMIN_BASE_PATH } from '@/router/routesAlias'
 
   defineOptions({ name: 'ArtNotification' })
 
@@ -123,7 +124,7 @@
 
   const handleViewAll = () => {
     emit('update:value', false)
-    router.push('/admin/system/notice')
+    router.push(`${ADMIN_BASE_PATH}/system/notice`)
   }
 
   // 动画控制
