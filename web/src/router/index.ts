@@ -1,3 +1,13 @@
+// +----------------------------------------------------------------------
+// | XYGo Admin [ Vue3 + GoFrame 企业级中后台管理系统 ]
+// +----------------------------------------------------------------------
+// | Copyright (c) 2026 大连星韵网络科技有限公司 All rights reserved.
+// +----------------------------------------------------------------------
+// | Licensed ( https://opensource.org/licenses/MIT )
+// +----------------------------------------------------------------------
+// | Author: 喜羊羊 <751300685@qq.com>
+// +----------------------------------------------------------------------
+
 import type { App } from 'vue'
 import { createRouter, createWebHashHistory } from 'vue-router'
 import { staticRoutes } from './routes/staticRoutes'
