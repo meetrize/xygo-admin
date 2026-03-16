@@ -51,12 +51,12 @@ func NewWmAuth() *sWmAuth {
 //  4. 复用 token.GenerateMember 生成 JWT
 func (s *sWmAuth) WxLogin(ctx context.Context, in *wmin.WxLoginInput) (out *wmin.WxLoginOutput, err error) {
 	// ---- 1. 从数据库配置表读取微信参数 ----
-	cfg, err := service.SysConfig().GetConfigByGroup(ctx, "wm")
+	cfg, err := service.SysConfig().GetConfigByGroup(ctx, "we_mapp")
 	if err != nil {
 		return nil, gerror.NewCode(consts.CodeServerError, "读取小程序配置失败")
 	}
-	appId := cfg["appid"]
-	appSecret := cfg["appsecret"]
+	appId := cfg["wmapp_appid"]
+	appSecret := cfg["wmapp_secret"]
 	if appId == "" || appSecret == "" {
 		return nil, gerror.NewCode(consts.CodeServerError, "小程序 appid / appsecret 未配置，请在后台-系统配置中填写")
 	}
@@ -86,17 +86,25 @@ func (s *sWmAuth) WxLogin(ctx context.Context, in *wmin.WxLoginInput) (out *wmin
 	if member == nil {
 		// 自动注册
 		isNew = true
+		now := gtime.Now().Unix()
 		dummyPwd, _ := bcrypt.GenerateFromPassword([]byte("wx_"+openid), bcrypt.DefaultCost)
+		shortId := openid
+		if len(shortId) > 16 {
+			shortId = shortId[len(shortId)-16:]
+		}
 		result, insertErr := dao.Member.Ctx(ctx).Data(g.Map{
-			"username":    "wx_" + openid[:8],
+			"username":    "wx_" + shortId,
 			"password":    string(dummyPwd),
 			"nickname":    "微信用户",
+			"mobile":      "wx_" + shortId,
 			"openid":      openid,
 			"session_key": sessionKey,
 			"status":      1,
 			"group_id":    1,
 			"level":       1,
 			"score":       0,
+			"created_at":  now,
+			"updated_at":  now,
 		}).Insert()
 		if insertErr != nil {
 			return nil, gerror.NewCode(consts.CodeServerError, "创建用户失败")
@@ -159,7 +167,6 @@ func (s *sWmAuth) WxLogin(ctx context.Context, in *wmin.WxLoginInput) (out *wmin
 		IsNew:     isNew,
 	}, nil
 }
-
 // code2Session 调用微信 jscode2session 接口
 func code2Session(appId, appSecret, code string) (openid, sessionKey string, err error) {
 	url := fmt.Sprintf(
