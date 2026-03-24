@@ -148,6 +148,7 @@
   import { handleMenuJump } from '@/utils/navigation'
   import SidebarSubmenu from './widget/SidebarSubmenu.vue'
   import { useCommon } from '@/hooks/core/useCommon'
+  import { ADMIN_BASE_PATH } from '@/router/routesAlias'
   import { useWindowSize, useTimeoutFn } from '@vueuse/core'
 
   defineOptions({ name: 'ArtSidebarMenu' })
@@ -223,7 +224,12 @@
     }
 
     // 返回当前顶级路径对应的子菜单
-    const currentTopPath = `/${route.path.split('/')[1]}`
+    // 去掉 ADMIN_BASE_PATH 前缀后取第一段，再拼回完整路径
+    const prefix = ADMIN_BASE_PATH.replace(/\/+$/, '')
+    const pathWithoutPrefix = route.path.startsWith(prefix + '/')
+      ? route.path.slice(prefix.length)
+      : route.path
+    const currentTopPath = prefix + `/${pathWithoutPrefix.split('/').filter(Boolean)[0] || ''}`
     const currentMenu = allMenus.find((menu) => menu.path === currentTopPath)
     return currentMenu?.children ?? []
   })

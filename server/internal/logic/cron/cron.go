@@ -22,6 +22,7 @@ import (
 	cronlib "xygo/internal/library/cron"
 	"xygo/internal/model/entity"
 	"xygo/internal/model/input/adminin"
+	"xygo/internal/model/input/form"
 )
 
 // ==================== 定时任务 CRUD ====================
@@ -87,9 +88,13 @@ func List(ctx context.Context, in *adminin.CronListInp) (*adminin.CronListModel,
 		})
 	}
 
-	_ = count
 	return &adminin.CronListModel{
 		List: list,
+		PageRes: form.PageRes{
+			Page:     in.Page,
+			PageSize: in.PageSize,
+			Total:    count,
+		},
 	}, nil
 }
 
@@ -315,9 +320,13 @@ func LogList(ctx context.Context, in *adminin.CronLogListInp) (*adminin.CronLogL
 		})
 	}
 
-	_ = count2
 	return &adminin.CronLogListModel{
 		List: list,
+		PageRes: form.PageRes{
+			Page:     in.Page,
+			PageSize: in.PageSize,
+			Total:    count2,
+		},
 	}, nil
 }
 
@@ -365,9 +374,13 @@ func GroupList(ctx context.Context, in *adminin.CronGroupListInp) (*adminin.Cron
 		})
 	}
 
-	_ = total
 	return &adminin.CronGroupListModel{
 		List: list,
+		PageRes: form.PageRes{
+			Page:     in.Page,
+			PageSize: in.PageSize,
+			Total:    total,
+		},
 	}, nil
 }
 

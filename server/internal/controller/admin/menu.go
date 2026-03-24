@@ -16,6 +16,7 @@ import (
 
 	"github.com/gogf/gf/v2/errors/gerror"
 	"github.com/gogf/gf/v2/net/ghttp"
+	"github.com/gogf/gf/v2/os/gtime"
 
 	api "xygo/api/admin"
 	"xygo/internal/consts"
@@ -244,6 +245,7 @@ func (c *ControllerV1) MenuSave(ctx context.Context, req *api.MenuSaveReq) (res 
 		return nil, err
 	}
 
+	now := gtime.Now().Timestamp()
 	data := do.AdminMenu{
 		ParentId:   req.MenuSaveInp.ParentId,
 		Type:       req.MenuSaveInp.Type,
@@ -267,10 +269,12 @@ func (c *ControllerV1) MenuSave(ctx context.Context, req *api.MenuSaveReq) (res 
 		Sort:       req.MenuSaveInp.Sort,
 		Status:     req.MenuSaveInp.Status,
 		Remark:     req.MenuSaveInp.Remark,
+		UpdateTime: now,
 	}
 
 	if req.MenuSaveInp.Id == 0 {
 		// 新增
+		data.CreateTime = now
 		r, err := dao.AdminMenu.Ctx(ctx).Data(data).OmitNil().Insert()
 		if err != nil {
 			return nil, err

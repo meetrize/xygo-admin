@@ -190,23 +190,15 @@ func getTrend(ctx context.Context, timeWhere string) ([]api.TrendItem, error) {
 	// 构建方言兼容的时间表达式
 	// MySQL: DATE_FORMAT(FROM_UNIXTIME(created_at), '%Y-%m-%d %H')
 	// PG:    to_char(to_timestamp(created_at), 'YYYY-MM-DD HH24')
-	timeExpr := dialect.DateFormat(dialect.FromUnixtime("created_at"), "%%Y-%%m-%%d %%H")
+	timeExpr := dialect.DateFormat(dialect.FromUnixtime("created_at"), "%Y-%m-%d %H")
+	roundExpr := dialect.RoundExpr("AVG(elapsed)", 1)
 
 	var rows []trendRow
-	sql := fmt.Sprintf(
-		`SELECT 
-		 %s as time,
-		 COUNT(*) as count,
-		 %s as "avgElapsed"
-		 FROM %s WHERE 1=1 %s
-		 GROUP BY %s
-		 ORDER BY time ASC
-		 LIMIT 168`,
-		timeExpr,
-		dialect.RoundExpr("AVG(elapsed)", 1),
-		opLogTable, timeWhere,
-		timeExpr,
-	)
+	sql := `SELECT ` + timeExpr + ` as time, COUNT(*) as count, ` +
+		roundExpr + ` as "avgElapsed" FROM ` + opLogTable +
+		` WHERE 1=1 ` + timeWhere +
+		` GROUP BY ` + timeExpr +
+		` ORDER BY time ASC LIMIT 168`
 
 	err := g.DB().Ctx(ctx).Raw(sql).Scan(&rows)
 	if err != nil {

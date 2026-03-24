@@ -243,7 +243,7 @@
           modelValue: row.status === 1,
           activeColor: '#13ce66',
           inactiveColor: '#ff4949',
-          onChange: (val) => handleStatusChange(row, 'status', val)
+          onChange: (val) => handleToggleField(row, 'status', val ? 1 : 0)
         })
     },
     {
@@ -254,9 +254,9 @@
       formatter: (row: any) =>
         h(ElSwitch, {
           modelValue: row.hidden === 1,
-          disabled: true,
           activeColor: '#13ce66',
-          inactiveColor: '#ff4949'
+          inactiveColor: '#ff4949',
+          onChange: (val) => handleToggleField(row, 'hidden', val ? 1 : 0)
         })
     },
     // {
@@ -546,19 +546,63 @@
    * @param field 字段名
    * @param value 新值
    */
-  const handleStatusChange = async (row: any, field: string, value: string | number | boolean): Promise<void> => {
+  const handleToggleField = async (row: any, field: string, newValue: number): Promise<void> => {
+    const oldValue = row[field]
     try {
-      const boolValue = !!value
-      // TODO: 调用后端接口更新状态
-      
-      // 更新本地数据
-      row[field] = boolValue ? 1 : 0
-      
+      row[field] = newValue
+
+      const findOriginal = (list: any[], id: number): any => {
+        for (const item of list) {
+          if (item.id === id) return item
+          if (item.children) {
+            const found = findOriginal(item.children, id)
+            if (found) return found
+          }
+        }
+        return null
+      }
+      const original = findOriginal(tableData.value, row.id)
+      if (original) original[field] = newValue
+
+      await fetchSaveMenu({
+        id: row.id,
+        parentId: row.parentId || row.parent_id || 0,
+        type: row.type,
+        title: row.title,
+        name: row.name,
+        path: row.path || '',
+        component: row.component || '',
+        icon: row.icon || '',
+        resource: row.resource || '',
+        hidden: field === 'hidden' ? newValue : (row.hidden || 0),
+        hideTab: row.hideTab || 0,
+        keepAlive: row.keepAlive || 0,
+        redirect: row.redirect || '',
+        frameSrc: row.frameSrc || '',
+        perms: row.perms || '',
+        isFrame: row.isFrame || 0,
+        affix: row.affix || 0,
+        showBadge: row.showBadge || 0,
+        badgeText: row.badgeText || '',
+        activePath: row.activePath || '',
+        isFullPage: row.isFullPage || 0,
+        sort: row.sort || 1,
+        status: field === 'status' ? newValue : (row.status || 0),
+        remark: row.remark || ''
+      })
+
       ElMessage.success('更新成功')
     } catch (error) {
+      row[field] = oldValue
+      const original = (function find(list: any[], id: number): any {
+        for (const item of list) {
+          if (item.id === id) return item
+          if (item.children) { const f = find(item.children, id); if (f) return f }
+        }
+        return null
+      })(tableData.value, row.id)
+      if (original) original[field] = oldValue
       ElMessage.error('更新失败')
-      // 恢复原状态
-      row[field] = value ? 0 : 1
     }
   }
 
@@ -586,8 +630,8 @@
         id: formData.id || 0,
         parentId: formData.parentId || 0,  // null/undefined转为0（顶级）
         type: formData.menuType === 'button' ? 3 : (formData.menuType === 'directory' ? 1 : 2),
-        title: formData.menuType === 'menu' ? formData.name : formData.authName,
-        name: formData.menuType === 'menu' ? formData.label : formData.authLabel,
+        title: formData.menuType === 'button' ? formData.authName : formData.name,
+        name: formData.menuType === 'button' ? formData.authLabel : formData.label,
         path: formData.path || '',
         component: formData.component || '',
         icon: formData.icon || '',

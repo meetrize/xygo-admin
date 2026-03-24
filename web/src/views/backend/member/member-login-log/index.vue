@@ -139,16 +139,6 @@
             ])
         }
       ]
-    },
-    transform: {
-      responseAdapter: (response: any) => ({
-        data: response.list || [],
-        pagination: {
-          current: response.page || 1,
-          size: response.pageSize || 20,
-          total: response.total || 0
-        }
-      })
     }
   })
 
