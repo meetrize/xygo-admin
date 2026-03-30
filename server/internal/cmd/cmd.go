@@ -130,6 +130,7 @@ var (
 					middleware.ResponseHandler,
 					middleware.TenantResolve,
 					middleware.TenantAdminAuth,
+					middleware.DemoGuard,
 				)
 				group.Bind(tenantCtrl.NewV1())
 			})
