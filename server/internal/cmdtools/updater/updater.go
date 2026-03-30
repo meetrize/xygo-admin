@@ -324,11 +324,19 @@ func applyUpdate(ctx context.Context, projectRoot string, local *VersionInfo, en
 
 	// 6. 执行数据库迁移
 	fmt.Print("  [5/5] 数据库迁移 ... ")
-	if err := migrate.RunUp(ctx, false); err != nil {
-		fmt.Printf("WARNING: %v\n", err)
-	} else {
-		fmt.Println("OK")
-	}
+	func() {
+		defer func() {
+			if r := recover(); r != nil {
+				fmt.Printf("SKIP (数据库未配置或连接失败: %v)\n", r)
+				fmt.Println("  提示: 请手动执行 go run tools.go migrate up")
+			}
+		}()
+		if err := migrate.RunUp(ctx, false); err != nil {
+			fmt.Printf("WARNING: %v\n", err)
+		} else {
+			fmt.Println("OK")
+		}
+	}()
 
 	return nil
 }
