@@ -6802,6 +6802,8 @@ SELECT pg_catalog.setval('public.xy_cms_doc_id_seq', 1, false);
 -- ============================================================
 -- xy_migration: 数据库迁移版本记录
 -- ============================================================
+SET search_path = public;
+
 CREATE TABLE IF NOT EXISTS xy_migration (
     id bigserial PRIMARY KEY,
     version varchar(32) NOT NULL UNIQUE,
