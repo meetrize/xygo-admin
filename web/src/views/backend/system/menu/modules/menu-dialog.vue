@@ -320,7 +320,10 @@
             props: { min: 1, controlsPosition: 'right', style: { width: '100%' } } 
           },
           {
-            label: '外部链接',
+            label: createLabelTooltip(
+              '外部链接',
+              '填写完整 URL 后，点击该菜单时：\n· 「是否内嵌」关闭 → 新标签页打开外链\n· 「是否内嵌」开启 → 在页面内 iframe 中嵌入显示'
+            ),
             key: 'link',
             type: 'input',
             props: { placeholder: '如：https://www.example.com' }
