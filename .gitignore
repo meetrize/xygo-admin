@@ -7,3 +7,4 @@ pack_addon/
 pack_update/
 server/addons/.tmp/
 server/addons/.backup/
+.DS_Store
