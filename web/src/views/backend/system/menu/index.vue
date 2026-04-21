@@ -289,7 +289,7 @@
             }),
             h(ArtButtonTable, {
               type: 'delete',
-              onClick: () => handleDeleteAuth()
+              onClick: () => handleDeleteAuth(row)
             })
           ])
         }
@@ -674,10 +674,16 @@
         cancelButtonText: '取消',
         type: 'warning'
       })
-      
-      await fetchDeleteMenu(row.id)
+
+      const id = Number(row.id)
+      if (!Number.isFinite(id) || id <= 0) {
+        ElMessage.error('无效的菜单 ID，无法删除')
+        return
+      }
+
+      await fetchDeleteMenu(id)
       ElMessage.success('删除成功')
-      getMenuList()
+      await getMenuList()
     } catch (error) {
       if (error !== 'cancel') {
         console.error('删除菜单失败:', error)
@@ -688,18 +694,104 @@
   /**
    * 删除权限按钮
    */
-  const handleDeleteAuth = async (): Promise<void> => {
+  const handleDeleteAuth = async (row: any): Promise<void> => {
     try {
       await ElMessageBox.confirm('确定要删除该权限吗？删除后无法恢复', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       })
+
+      // 表格里有两类「按钮」行：
+      // 1）后端 xy_admin_menu 表中的真实按钮（type=3，数字 id）→ 应走删除接口
+      // 2）由父级 perms JSON 展开出来的虚拟行（id 形如 "父id_auth_标识"）→ 改父级 perms
+      const rowId = row.id
+      const isVirtualAuth =
+        typeof rowId === 'string' && String(rowId).includes('_auth_')
+
+      if (!isVirtualAuth) {
+        const id = Number(rowId)
+        if (!Number.isFinite(id) || id <= 0) {
+          ElMessage.error('无效的权限项 ID')
+          return
+        }
+        await fetchDeleteMenu(id)
+        ElMessage.success('删除成功')
+        await getMenuList()
+        return
+      }
+
+      // 权限按钮存储在父菜单的 perms JSON 中，需要更新父菜单
+      const parentId = row.parentId || row.parent_id
+      if (!parentId) {
+        ElMessage.error('找不到父菜单')
+        return
+      }
+
+      // 找到父菜单数据
+      const findParent = (list: any[], pid: number): any => {
+        for (const item of list) {
+          if (item.id === pid) return item
+          if (item.children) {
+            const found = findParent(item.children, pid)
+            if (found) return found
+          }
+        }
+        return null
+      }
+      const parent = findParent(tableData.value, parentId)
+      if (!parent) {
+        ElMessage.error('找不到父菜单数据')
+        return
+      }
+
+      // 从 perms JSON 中移除该权限
+      let permsList: any[] = []
+      if (parent.perms && parent.perms.trim().startsWith('[')) {
+        try {
+          permsList = JSON.parse(parent.perms)
+        } catch (e) {
+          permsList = []
+        }
+      }
+      // 过滤掉要删除的权限（通过 name 字段匹配，row.name 就是 authMark）
+      const authMark = row.name
+      permsList = permsList.filter((p: any) => p.authMark !== authMark)
+
+      // 更新父菜单的 perms 字段
+      const updateParams: any = {
+        id: parent.id,
+        parentId: parent.parentId || parent.parent_id || 0,
+        type: parent.type,
+        title: parent.title,
+        name: parent.name,
+        path: parent.path || '',
+        component: parent.component || '',
+        icon: parent.icon || '',
+        resource: parent.resource || '',
+        hidden: parent.hidden || 0,
+        hideTab: parent.hideTab || 0,
+        keepAlive: parent.keepAlive || 0,
+        redirect: parent.redirect || '',
+        frameSrc: parent.frameSrc || '',
+        perms: JSON.stringify(permsList),
+        isFrame: parent.isFrame || 0,
+        affix: parent.affix || 0,
+        showBadge: parent.showBadge || 0,
+        badgeText: parent.badgeText || '',
+        activePath: parent.activePath || '',
+        isFullPage: parent.isFullPage || 0,
+        sort: parent.sort || 1,
+        status: parent.status || 1,
+        remark: parent.remark || ''
+      }
+
+      await fetchSaveMenu(updateParams)
       ElMessage.success('删除成功')
-      getMenuList()
+      await getMenuList()
     } catch (error) {
       if (error !== 'cancel') {
-        ElMessage.error('删除失败')
+        console.error('删除权限失败:', error)
       }
     }
   }

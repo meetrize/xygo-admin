@@ -1,0 +1,12 @@
+---
+description: 
+alwaysApply: true
+---
+
+# Git 提交信息语言
+
+在使用 Cursor「生成提交信息 / Generate Commit Message」等功能时：
+
+- 提交说明（标题与正文）必须使用**简体中文**。
+- 风格与仓库近期提交保持一致；若近期为中文，延续中文表述。
+- 避免整段英文，专有名词、API 名、文件名可保留原文。
