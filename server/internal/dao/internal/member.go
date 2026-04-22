@@ -23,7 +23,8 @@ type MemberDao struct {
 type MemberColumns struct {
 	Id          string // 会员ID
 	Username    string // 用户名
-	Password    string // 密码（bcrypt加密）
+	Password    string // 密码（MD5+salt加密）
+	Salt        string // 密码盐
 	Mobile      string // 手机号
 	Email       string // 邮箱
 	Nickname    string // 昵称
@@ -41,7 +42,6 @@ type MemberColumns struct {
 	CreatedAt   string // 创建时间
 	UpdatedAt   string // 更新时间
 	DeletedAt   string // deleted time
-	Salt        string // 密码盐
 }
 
 // memberColumns holds the columns for the table xy_member.
@@ -49,6 +49,7 @@ var memberColumns = MemberColumns{
 	Id:          "id",
 	Username:    "username",
 	Password:    "password",
+	Salt:        "salt",
 	Mobile:      "mobile",
 	Email:       "email",
 	Nickname:    "nickname",
@@ -66,7 +67,6 @@ var memberColumns = MemberColumns{
 	CreatedAt:   "created_at",
 	UpdatedAt:   "updated_at",
 	DeletedAt:   "deleted_at",
-	Salt:        "salt",
 }
 
 // NewMemberDao creates and returns a new DAO object for table data access.

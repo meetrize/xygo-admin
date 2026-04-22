@@ -207,9 +207,6 @@ function useTableImpl<TApiFn extends (params: any) => Promise<any>>(
   // 请求取消控制器
   let abortController: AbortController | null = null
 
-  // 缓存清理定时器
-  let cacheCleanupTimer: NodeJS.Timeout | null = null
-
   // 搜索参数
   const searchParams = reactive(
     Object.assign(
@@ -298,6 +295,15 @@ function useTableImpl<TApiFn extends (params: any) => Promise<any>>(
     // 创建新的取消控制器
     const currentController = new AbortController()
     abortController = currentController
+
+    // 惰性清理过期缓存（不再使用 setInterval 定时轮询）
+    if (cache) {
+      const cleanedCount = cache.cleanupExpired()
+      if (cleanedCount > 0) {
+        cacheUpdateTrigger.value++
+        logger.log(`惰性清理 ${cleanedCount} 条过期缓存`)
+      }
+    }
 
     // 状态机：进入 loading 状态
     loadingState.value = 'loading'
@@ -611,18 +617,6 @@ function useTableImpl<TApiFn extends (params: any) => Promise<any>>(
       cacheUpdateTrigger.value++
     }
     return cleanedCount
-  }
-
-  // 设置定期清理过期缓存
-  if (enableCache && cache) {
-    cacheCleanupTimer = setInterval(() => {
-      const cleanedCount = cache.cleanupExpired()
-      if (cleanedCount > 0) {
-        logger.log(`自动清理 ${cleanedCount} 条过期缓存`)
-        // 手动触发缓存状态更新
-        cacheUpdateTrigger.value++
-      }
-    }, cacheTime / 2) // 每半个缓存周期清理一次
   }
 
   // 挂载时自动加载数据
