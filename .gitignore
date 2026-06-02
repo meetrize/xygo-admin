@@ -13,5 +13,8 @@ server/addons/.backup/
 server/addons/*.zip
 web/src/addons/tenant/
 web/.npmrc
-web/package.json
+
 web/pnpm-workspace.yaml
+web/package.json
+web/.husky/commit-msg
+web/.husky/pre-commit
