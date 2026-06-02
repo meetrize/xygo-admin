@@ -12,3 +12,6 @@ server/addons/*/
 server/addons/.backup/
 server/addons/*.zip
 web/src/addons/tenant/
+web/.npmrc
+web/package.json
+web/pnpm-workspace.yaml
