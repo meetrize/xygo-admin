@@ -21,16 +21,16 @@ type SmsLogDao struct {
 
 // SmsLogColumns defines and stores column names for the table xy_sms_log.
 type SmsLogColumns struct {
-	Id           string // 主键
+	Id           string //
 	Phone        string // 手机号
 	TemplateCode string // 使用的模板标识
-	Driver       string // 驱动名
+	Driver       string // 驱动名（aliyun/tencent）
 	Content      string // 实际发送内容
 	Params       string // 发送参数 JSON
 	Status       string // 状态：1=成功 0=失败
 	RequestId    string // 服务商返回请求ID
 	ErrorMsg     string // 错误信息
-	CreateTime   string // 发送时间
+	CreateTime   string // 发送时间（Unix秒）
 }
 
 // smsLogColumns holds the columns for the table xy_sms_log.
@@ -77,7 +77,7 @@ func (dao *SmsLogDao) Group() string {
 	return dao.group
 }
 
-// Ctx creates and returns a Model for the current DAO.
+// Ctx creates and returns a Model for the current DAO. It automatically sets the context for the current operation.
 func (dao *SmsLogDao) Ctx(ctx context.Context) *gdb.Model {
 	model := dao.DB().Model(dao.table)
 	for _, handler := range dao.handlers {
@@ -87,6 +87,11 @@ func (dao *SmsLogDao) Ctx(ctx context.Context) *gdb.Model {
 }
 
 // Transaction wraps the transaction logic using function f.
+// It rolls back the transaction and returns the error if function f returns a non-nil error.
+// It commits the transaction and returns nil if function f returns nil.
+//
+// Note: Do not commit or roll back the transaction in function f,
+// as it is automatically handled by this function.
 func (dao *SmsLogDao) Transaction(ctx context.Context, f func(ctx context.Context, tx gdb.TX) error) (err error) {
 	return dao.Ctx(ctx).Transaction(ctx, f)
 }

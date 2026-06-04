@@ -8,15 +8,15 @@ import (
 	"xygo/internal/dao/internal"
 )
 
-// addonDao is the data access object for the table xy_addon.
+// cmsChangelogDao is the data access object for the table xy_cms_changelog.
 // You can define custom methods on it to extend its functionality as needed.
-type addonDao struct {
-	*internal.AddonDao
+type cmsChangelogDao struct {
+	*internal.CmsChangelogDao
 }
 
 var (
-	// Addon is a globally accessible object for table xy_addon operations.
-	Addon = addonDao{internal.NewAddonDao()}
+	// CmsChangelog is a globally accessible object for table xy_cms_changelog operations.
+	CmsChangelog = cmsChangelogDao{internal.NewCmsChangelogDao()}
 )
 
 // Add your custom methods and functionality below.

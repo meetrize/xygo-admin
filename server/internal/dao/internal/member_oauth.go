@@ -21,17 +21,17 @@ type MemberOauthDao struct {
 
 // MemberOauthColumns defines and stores column names for the table xy_member_oauth.
 type MemberOauthColumns struct {
-	Id         string // PK
-	MemberId   string // member FK
-	Platform   string // platform: wechat_mapp/wechat_oa/qq/alipay
-	Openid     string // openid
+	Id         string // 主键ID
+	MemberId   string // 关联会员ID
+	Platform   string // 平台标识 wechat_mapp/wechat_oa/qq/alipay等
+	Openid     string // 平台openid
 	Unionid    string // unionid
 	SessionKey string // session_key
-	Nickname   string // nickname
-	Avatar     string // avatar url
-	Extra      string // extra json
-	CreatedAt  string // created time
-	UpdatedAt  string // updated time
+	Nickname   string // 平台昵称
+	Avatar     string // 平台头像
+	Extra      string // 扩展JSON
+	CreatedAt  string // 创建时间
+	UpdatedAt  string // 更新时间
 	DeletedAt  string // deleted time
 }
 

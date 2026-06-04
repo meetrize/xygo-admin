@@ -21,10 +21,10 @@ type SmsTemplateDao struct {
 
 // SmsTemplateColumns defines and stores column names for the table xy_sms_template.
 type SmsTemplateColumns struct {
-	Id                 string // 主键
+	Id                 string //
 	Title              string // 模板标题
-	Code               string // 模板唯一标识
-	Content            string // 短信文案
+	Code               string // 模板唯一标识（如 user_register）
+	Content            string // 短信文案（含变量占位 ${var}）
 	ProviderTemplateId string // 服务商模板ID
 	Variables          string // 模板变量列表 JSON
 	RelatedVariableId  string // 关联文案变量ID
@@ -33,8 +33,8 @@ type SmsTemplateColumns struct {
 	Remark             string // 备注
 	CreatedBy          string // 创建人ID
 	UpdatedBy          string // 更新人ID
-	CreateTime         string // 创建时间
-	UpdateTime         string // 更新时间
+	CreateTime         string // 创建时间（Unix秒）
+	UpdateTime         string // 更新时间（Unix秒）
 }
 
 // smsTemplateColumns holds the columns for the table xy_sms_template.
@@ -85,7 +85,7 @@ func (dao *SmsTemplateDao) Group() string {
 	return dao.group
 }
 
-// Ctx creates and returns a Model for the current DAO.
+// Ctx creates and returns a Model for the current DAO. It automatically sets the context for the current operation.
 func (dao *SmsTemplateDao) Ctx(ctx context.Context) *gdb.Model {
 	model := dao.DB().Model(dao.table)
 	for _, handler := range dao.handlers {
@@ -95,6 +95,11 @@ func (dao *SmsTemplateDao) Ctx(ctx context.Context) *gdb.Model {
 }
 
 // Transaction wraps the transaction logic using function f.
+// It rolls back the transaction and returns the error if function f returns a non-nil error.
+// It commits the transaction and returns nil if function f returns nil.
+//
+// Note: Do not commit or roll back the transaction in function f,
+// as it is automatically handled by this function.
 func (dao *SmsTemplateDao) Transaction(ctx context.Context, f func(ctx context.Context, tx gdb.TX) error) (err error) {
 	return dao.Ctx(ctx).Transaction(ctx, f)
 }

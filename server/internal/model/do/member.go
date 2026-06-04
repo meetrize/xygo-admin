@@ -14,7 +14,8 @@ type Member struct {
 	g.Meta      `orm:"table:xy_member, do:true"`
 	Id          any         // 会员ID
 	Username    any         // 用户名
-	Password    any         // 密码（bcrypt加密）
+	Password    any         // 密码（MD5+salt加密）
+	Salt        any         // 密码盐
 	Mobile      any         // 手机号
 	Email       any         // 邮箱
 	Nickname    any         // 昵称
@@ -32,5 +33,4 @@ type Member struct {
 	CreatedAt   any         // 创建时间
 	UpdatedAt   any         // 更新时间
 	DeletedAt   any         // deleted time
-	Salt        any         // 密码盐
 }
