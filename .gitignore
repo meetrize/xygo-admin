@@ -15,7 +15,6 @@ web/src/addons/tenant/
 web/.npmrc
 
 web/pnpm-workspace.yaml
-web/package.json
 web/.husky/commit-msg
 web/.husky/pre-commit
 server/resource/public/attachment/upload/
