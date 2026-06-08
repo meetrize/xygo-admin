@@ -147,7 +147,7 @@ git push origin master       # 同步到你的 fork
 ### 功能分支也要跟上最新代码
 
 ```bash
-git checkout feature/my-awesome-feature
+git checkout feature/m_xygo
 
 # 方式 A：rebase（历史更干净，PR 更友好，推荐）
 git rebase master
